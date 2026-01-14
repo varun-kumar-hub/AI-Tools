@@ -1,0 +1,20 @@
+name: Run Scraper
+
+on:
+  schedule:
+    # Run every 2 hours
+    - cron: '0 */2 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Vercel Scraper Endpoint
+        run: |
+          if [ -z "${{ secrets.VERCEL_BACKEND_URL }}" ]; then
+            echo "Error: VERCEL_BACKEND_URL secret is not set!"
+            exit 1
+          fi
+          echo "Triggering scraper at ${{ secrets.VERCEL_BACKEND_URL }}/api/scraper/run"
+          curl -X GET "${{ secrets.VERCEL_BACKEND_URL }}/api/scraper/run"
