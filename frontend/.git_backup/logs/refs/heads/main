@@ -1,0 +1,18 @@
+0000000000000000000000000000000000000000 6e5561f0274aea22e7dbe4a8e4cd620aa6761bde VarunKumar988 <cvarunkumar455@gmail.com> 1768382217 +0530	commit (initial): Update frontend with Soft Delete, Admin UI, and Home Page delete
+6e5561f0274aea22e7dbe4a8e4cd620aa6761bde 6e5561f0274aea22e7dbe4a8e4cd620aa6761bde VarunKumar988 <cvarunkumar455@gmail.com> 1768382217 +0530	Branch: renamed refs/heads/main to refs/heads/main
+6e5561f0274aea22e7dbe4a8e4cd620aa6761bde a46314726055a066cd5d6a81af6831aa65af498a VarunKumar988 <cvarunkumar455@gmail.com> 1768383572 +0530	commit: Fix API URL construction to use REAC_APP_BACKEND_URL correctly
+a46314726055a066cd5d6a81af6831aa65af498a 21884a6fa08dbf6e5eb46841f23b9adb65d40ad5 VarunKumar988 <cvarunkumar455@gmail.com> 1768384171 +0530	commit: Restrict login to admin email only
+21884a6fa08dbf6e5eb46841f23b9adb65d40ad5 69d7f18b0b5026a9ee87429d5a1c4c315dd3e79e VarunKumar988 <cvarunkumar455@gmail.com> 1768384986 +0530	commit: Implement Password Login with fallback to Magic Link
+69d7f18b0b5026a9ee87429d5a1c4c315dd3e79e c2d4a93a9f4dfb791be29d21d19e0af7b7296a62 VarunKumar988 <cvarunkumar455@gmail.com> 1768385448 +0530	commit: Implement Password Reset flow: UpdatePassword page and Auth provider updates
+c2d4a93a9f4dfb791be29d21d19e0af7b7296a62 535d1c6f756eb3e4d676ede4cefb02ca2e8b8a23 VarunKumar988 <cvarunkumar455@gmail.com> 1768385826 +0530	commit: Update Login UI: Remove Magic Link button, add Forgot Password link
+535d1c6f756eb3e4d676ede4cefb02ca2e8b8a23 043f2a8a675c0bf0c502b500a63e0db0758653d7 VarunKumar988 <cvarunkumar455@gmail.com> 1768386379 +0530	commit: Add Logo component and use it in Navbar and Login pages
+043f2a8a675c0bf0c502b500a63e0db0758653d7 a1c55fef93183db6e28282093c24cc9b8d0ae9d7 VarunKumar988 <cvarunkumar455@gmail.com> 1768386434 +0530	commit: Fix ReferenceError: Restore missing handleLogin function in Login.jsx
+a1c55fef93183db6e28282093c24cc9b8d0ae9d7 390c73c48ffa9b3762d288feb4b296e1f0cd9344 VarunKumar988 <cvarunkumar455@gmail.com> 1768386726 +0530	commit: Update Logo to use custom image
+390c73c48ffa9b3762d288feb4b296e1f0cd9344 a78b6798f22e0d667c503a10b660691097062863 VarunKumar988 <cvarunkumar455@gmail.com> 1768386886 +0530	commit: Update website favicon to use new logo
+a78b6798f22e0d667c503a10b660691097062863 3e97e015503ede1748f75916b3ac150ad5adcfa3 VarunKumar988 <cvarunkumar455@gmail.com> 1768404371 +0530	commit: feat: Complete UI/UX overhaul with premium dark theme and glassmorphism
+3e97e015503ede1748f75916b3ac150ad5adcfa3 f17f39935777346618c59cacd4080572f2a98f4f VarunKumar988 <cvarunkumar455@gmail.com> 1768405277 +0530	commit: chore: auto-deploy updates
+f17f39935777346618c59cacd4080572f2a98f4f 04b53f83f77c3997f5e0d1bfaa482c3e708c97f8 VarunKumar988 <cvarunkumar455@gmail.com> 1768405640 +0530	commit: chore: auto-deploy updates
+04b53f83f77c3997f5e0d1bfaa482c3e708c97f8 3086e833e81668831545e072ee088205e3543678 VarunKumar988 <cvarunkumar455@gmail.com> 1768406775 +0530	commit: chore: auto-deploy updates
+3086e833e81668831545e072ee088205e3543678 4b836fd36ee1557d0f3bc3bf50ae569171cb26e7 VarunKumar988 <cvarunkumar455@gmail.com> 1768407119 +0530	commit: chore: auto-deploy updates
+4b836fd36ee1557d0f3bc3bf50ae569171cb26e7 27f81ccab3dd7bc534ad43a76d81d30a25972572 VarunKumar988 <cvarunkumar455@gmail.com> 1768407732 +0530	commit: chore: auto-deploy updates
+27f81ccab3dd7bc534ad43a76d81d30a25972572 2ab11b390cf3586fbf6112c79e3475091c0b384a VarunKumar988 <cvarunkumar455@gmail.com> 1768407875 +0530	commit: chore: auto-deploy updates

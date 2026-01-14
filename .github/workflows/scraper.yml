@@ -1,0 +1,91 @@
+name: AI Tools Scraper Scheduler
+
+on:
+  schedule:
+    # Run every 2 hours at the start of the hour (0:00, 2:00, 4:00, etc.)
+    - cron: '0 */2 * * *'
+  workflow_dispatch: # Allow manual trigger from GitHub UI
+
+jobs:
+  scrape-tools:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r backend/requirements.txt
+
+    - name: Run Scraper
+      env:
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      run: |
+        # Create a simple script to trigger the scraper logic or run server in background
+        # Since server.py is an API, we can just run a python script that imports and runs the scraper function directly
+        # or we can write a small script here.
+        
+        cat <<EOF > run_scraper_action.py
+        import os
+        import sys
+        import asyncio
+        from dotenv import load_dotenv
+        
+        # Add backend to path
+        sys.path.append('backend')
+        
+        # Mock dotenv to avoid errors if .env is missing (we use secrets)
+        pass 
+        
+        # Import directly from backend modules
+        from backend.supabase_client import get_supabase_client
+        from backend.scrapers import ProductHuntScraper, HackerNewsScraper, DevToScraper
+        
+        async def main():
+            print("Starting Scheduled Scrape...")
+            scrapers = [ProductHuntScraper(), HackerNewsScraper(), DevToScraper()]
+            
+            total = 0
+            # Initialize Supabase (relies on env vars)
+            supabase = get_supabase_client()
+            
+            for scraper in scrapers:
+                try:
+                    print(f"Running {scraper.__class__.__name__}...")
+                    tools = scraper.scrape(limit=15)
+                    print(f"Found {len(tools)} tools.")
+                    
+                    for tool in tools:
+                        try:
+                            # Double check existence
+                            res = supabase.table('ai_tools').select('id').eq('name', tool['name']).execute()
+                            if not res.data:
+                                supabase.table('ai_tools').insert(tool).execute()
+                                total += 1
+                                print(f"  + Added: {tool['name']}")
+                            else:
+                                print(f"  . Skipped: {tool['name']}")
+                        except Exception as e:
+                            print(f"Error inserting {tool.get('name')}: {e}")
+                            
+                except Exception as e:
+                    print(f"Error running scraper: {e}")
+            
+            print(f"Done! Added {total} new tools.")
+
+        if __name__ == "__main__":
+            asyncio.run(main())
+        EOF
+        
+        python run_scraper_action.py

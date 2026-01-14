@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AI Tools Tracker</string>
+    <string name="title_activity_main">AI Tools Tracker</string>
+    <string name="package_name">com.futuretechai.app</string>
+    <string name="custom_url_scheme">com.futuretechai.app</string>
+</resources>
