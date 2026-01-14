@@ -133,7 +133,7 @@ const Admin = () => {
     if (!toolToDelete) return;
 
     try {
-      const res = await fetch(`${BACKEND_URL}/api/tools/${toolToDelete}`, { method: 'DELETE' });
+      const res = await fetch(`${BACKEND_URL}/tools/${toolToDelete}`, { method: 'DELETE' });
       if (!res.ok) throw new Error("Failed to delete tool");
 
       toast.success("Success", { description: "Tool moved to trash" });
@@ -158,7 +158,7 @@ const Admin = () => {
   const confirmRestore = async () => {
     if (!toolToRestore) return;
     try {
-      const res = await fetch(`${BACKEND_URL}/api/tools/${toolToRestore}/restore`, { method: 'POST' });
+      const res = await fetch(`${BACKEND_URL}/tools/${toolToRestore}/restore`, { method: 'POST' });
       if (!res.ok) throw new Error("Failed to restore");
 
       toast.success("Success", { description: "Tool restored successfully" });
