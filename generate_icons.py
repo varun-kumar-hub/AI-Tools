@@ -34,11 +34,15 @@ def generate_icons():
             icon.save(icon_path, "PNG")
             
             # Resize and save ic_launcher_round.png (round)
-            # In a real scenario we might mask this, but for now resizing is better than nothing
             icon_round_path = os.path.join(target_dir, "ic_launcher_round.png")
             icon.save(icon_round_path, "PNG")
+
+            # Resize and save ic_launcher_foreground.png (adaptive foreground)
+            # using the same icon as foreground
+            icon_fg_path = os.path.join(target_dir, "ic_launcher_foreground.png")
+            icon.save(icon_fg_path, "PNG")
             
-            print(f"Generated {size}x{size} icons in {folder}")
+            print(f"Generated {size}x{size} icons in {folder} (standard, round, foreground)")
 
         print("Icon generation complete.")
 
