@@ -46,6 +46,9 @@ class ProductHuntScraper:
         adapter = HTTPAdapter(max_retries=retry)
         session.mount('http://', adapter)
         session.mount('https://', adapter)
+        session.headers.update({
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        })
         return session
     
     @rate_limit(calls=1, period=2)
@@ -53,7 +56,14 @@ class ProductHuntScraper:
         """Scrape AI tools from Product Hunt RSS feed"""
         try:
             tools = []
-            feed = feedparser.parse(self.rss_url)
+            
+            # Fetch feed content using session with headers
+            response = self.session.get(self.rss_url, timeout=30)
+            if response.status_code != 200:
+                logger.error(f"Failed to fetch Product Hunt feed: {response.status_code}")
+                return []
+                
+            feed = feedparser.parse(response.content)
             
             for entry in feed.entries[:limit]:  # Get latest 'limit' posts
                 # Filter for AI-related posts
