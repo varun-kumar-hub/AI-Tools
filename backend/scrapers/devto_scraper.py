@@ -49,7 +49,7 @@ class DevToScraper:
         return session
     
     @rate_limit(calls=1, period=1)
-    def scrape(self):
+    def scrape(self, limit=15):
         """Scrape AI tools from Dev.to"""
         try:
             tools = []
@@ -58,7 +58,7 @@ class DevToScraper:
                 self.api_url,
                 params={
                     'tag': 'ai',
-                    'per_page': 10
+                    'per_page': limit
                 },
                 headers={'User-Agent': 'AI Tools Hub Scraper'},
                 timeout=10

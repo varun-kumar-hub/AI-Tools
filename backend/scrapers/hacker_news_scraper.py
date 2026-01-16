@@ -49,20 +49,27 @@ class HackerNewsScraper:
         return session
     
     @rate_limit(calls=1, period=1)
-    def scrape(self):
+    def scrape(self, limit=15):
         """Scrape AI tools from Hacker News"""
         try:
             tools = []
             # Search for Show HN posts about AI tools
             queries = ['Show HN AI tool', 'AI assistant', 'AI platform']
             
+            # Distribute limit across queries (approximate)
+            per_query_limit = max(5, limit // len(queries))
+            
             for query in queries:
+                # Stop if we have enough tools
+                if len(tools) >= limit:
+                    break
+                    
                 response = self.session.get(
                     self.api_url,
                     params={
                         'query': query,
                         'tags': 'show_hn',
-                        'hitsPerPage': 5
+                        'hitsPerPage': per_query_limit
                     },
                     timeout=10
                 )
@@ -83,6 +90,8 @@ class HackerNewsScraper:
                         # Only add if validation passes
                         if self._validate_tool(tool):
                             tools.append(tool)
+                            if len(tools) >= limit:
+                                break
                 
                 # Rate limit between queries
                 time.sleep(0.5)
