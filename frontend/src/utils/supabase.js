@@ -157,11 +157,11 @@ export const toolsAPI = {
         item.tags?.forEach(tag => uniqueTags.add(tag));
       });
 
-      // Calculate next scrape time (Deterministic: Every 2 hours on even hours UTC)
+      // Calculate next scrape time (Deterministic: Every 1 hour)
       const now = new Date();
       const currentHour = now.getUTCHours();
-      // Next even hour
-      let nextHour = Math.floor(currentHour / 2 + 1) * 2;
+      // Next hour
+      let nextHour = currentHour + 1;
 
       const nextScrapeDate = new Date(now);
       nextScrapeDate.setUTCMinutes(0, 0, 0);

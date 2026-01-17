@@ -278,14 +278,12 @@ async def get_stats():
             # tool_time = datetime.fromisoformat(tool['created_at'])
             # ...
 
-        # Calculate next scrape time based on deterministic 2-hour schedule (matches GitHub Actions)
+        # Calculate next scrape time based on deterministic 1-hour schedule (matches GitHub Actions)
         now_utc = datetime.utcnow()
         current_hour = now_utc.hour
         
-        # Next even hour
-        # If current hour is 10 (10:xx), next run is 12:00
-        # If current hour is 11 (11:xx), next run is 12:00
-        next_hour = (current_hour // 2 + 1) * 2
+        # Next hour
+        next_hour = current_hour + 1
         
         # Handle day rollover (e.g., if next_hour is 24)
         if next_hour >= 24:
