@@ -14,6 +14,7 @@ import UpdatePassword from "./pages/UpdatePassword";
 import { Toaster } from "./components/ui/toaster";
 import { AuthProvider, useAuth } from "./components/AuthProvider";
 import { toolsAPI } from "./utils/supabase";
+import PullToRefresh from "./components/PullToRefresh";
 
 export const ToolsContext = createContext(null);
 
@@ -83,24 +84,26 @@ function AppContent() {
 
         <div className="relative z-10">
           <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/category/:id" element={<CategoryDetail />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/tool/:id" element={<ToolDetail />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/update-password" element={<UpdatePassword />} />
-            <Route
-              path="/admin"
-              element={
-                <ProtectedAdminRoute>
-                  <Admin />
-                </ProtectedAdminRoute>
-              }
-            />
-          </Routes>
+          <PullToRefresh onRefresh={refresh}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/category/:id" element={<CategoryDetail />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/tool/:id" element={<ToolDetail />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/update-password" element={<UpdatePassword />} />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedAdminRoute>
+                    <Admin />
+                  </ProtectedAdminRoute>
+                }
+              />
+            </Routes>
+          </PullToRefresh>
         </div>
         <Toaster />
       </div>

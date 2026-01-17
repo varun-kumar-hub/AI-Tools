@@ -53,8 +53,16 @@ class HackerNewsScraper:
         """Scrape AI tools from Hacker News"""
         try:
             tools = []
-            # Search for Show HN posts about AI tools
-            queries = ['Show HN AI tool', 'AI assistant', 'AI platform']
+            # Search for Show HN posts about AI tools and other relevant queries
+            queries = [
+                'Show HN AI tool', 
+                'Show HN AI assistant', 
+                'Show HN AI platform',
+                'Launch HN AI',
+                'Ask HN: Who is hiring? (AI)',
+                'Show HN LLM',
+                'Show HN GPT'
+            ]
             
             # Distribute limit across queries (approximate)
             per_query_limit = max(5, limit // len(queries))
@@ -105,12 +113,15 @@ class HackerNewsScraper:
     def _extract_tags(self, text):
         """Extract relevant tags from text"""
         tags = []
+
         tag_keywords = {
-            'AI': ['ai', 'artificial intelligence'],
-            'Open Source': ['open source', 'oss'],
-            'Developer Tools': ['devtools', 'developer', 'tools'],
-            'Automation': ['automation', 'automate'],
-            'Machine Learning': ['machine learning', 'ml', 'neural']
+            'AI': ['ai', 'artificial intelligence', 'gpt', 'llm', 'generative'],
+            'Open Source': ['open source', 'oss', 'github'],
+            'Developer Tools': ['devtools', 'developer', 'tools', 'api', 'sdk'],
+            'Automation': ['automation', 'automate', 'workflow', 'agent'],
+            'Machine Learning': ['machine learning', 'ml', 'neural', 'deep learning', 'computer vision'],
+            'Data Science': ['data science', 'analytics', 'data engineering'],
+            'Robotics': ['robotics', 'robot', 'drone']
         }
         
         text_lower = text.lower()

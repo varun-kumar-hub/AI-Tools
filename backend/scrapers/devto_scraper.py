@@ -53,34 +53,52 @@ class DevToScraper:
         """Scrape AI tools from Dev.to"""
         try:
             tools = []
-            # Search for articles with AI tags
-            response = self.session.get(
-                self.api_url,
-                params={
-                    'tag': 'ai',
-                    'per_page': limit
-                },
-                headers={'User-Agent': 'AI Tools Hub Scraper'},
-                timeout=10
-            )
+            # Search for articles with multiple AI-related tags
+            tags = ['ai', 'machine-learning', 'datascience', 'python']
             
-            if response.status_code == 200:
-                articles = response.json()
-                for article in articles:
-                    # Extract tool information from article
-                    tool = {
-                        'name': self._extract_tool_name(article.get('title', '')),
-                        'description': self._clean_text(article.get('description', '')),
-                        'url': article.get('url'),
-                        'source': 'Dev.to',
-                        'tags': article.get('tag_list', [])[:5],
-                        'category': self._categorize(article.get('title', '') + ' ' + article.get('description', '')),
-                        'created_at': datetime.now().isoformat()
-                    }
+            for tag in tags:
+                if len(tools) >= limit:
+                    break
                     
-                    # Only add if validation passes
-                    if self._validate_tool(tool):
-                        tools.append(tool)
+                response = self.session.get(
+                    self.api_url,
+                    params={
+                        'tag': tag,
+                        'per_page': limit,
+                        'top': 1 # Get top articles for better quality
+                    },
+                    headers={'User-Agent': 'AI Tools Hub Scraper'},
+                    timeout=10
+                )
+                
+                if response.status_code == 200:
+                    articles = response.json()
+                    for article in articles:
+                        # Stop if limit reached
+                        if len(tools) >= limit:
+                            break
+                            
+                        # Extract tool information from article
+                        tool = {
+                            'name': self._extract_tool_name(article.get('title', '')),
+                            'description': self._clean_text(article.get('description', '')),
+                            'url': article.get('url'),
+                            'source': 'Dev.to',
+                            'tags': article.get('tag_list', [])[:5],
+                            'category': self._categorize(article.get('title', '') + ' ' + article.get('description', '')),
+                            'created_at': datetime.now().isoformat()
+                        }
+                        
+                        # Check for duplicates in current batch
+                        if any(t['url'] == tool['url'] for t in tools):
+                            continue
+                        
+                        # Only add if validation passes
+                        if self._validate_tool(tool):
+                            tools.append(tool)
+                
+                # Small delay between requests
+                time.sleep(0.5)
             
             logger.info(f"Scraped {len(tools)} tools from Dev.to")
             return tools

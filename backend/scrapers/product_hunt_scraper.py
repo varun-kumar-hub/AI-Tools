@@ -95,21 +95,26 @@ class ProductHuntScraper:
         """Check if the post is AI-related"""
         ai_keywords = ['ai', 'artificial intelligence', 'machine learning', 'ml', 'gpt', 
                       'llm', 'chatbot', 'automation', 'neural', 'deep learning', 'nlp',
-                      'generative', 'openai', 'claude', 'assistant']
+                      'generative', 'openai', 'claude', 'assistant', 'copilot', 'model', 
+                      'diffusion', 'computer vision', 'robotics', 'analytics', 'data', 
+                      'voice', 'video', 'content creation', 'sora', 'gemini', 'llama']
         text_lower = text.lower()
         return any(keyword in text_lower for keyword in ai_keywords)
     
     def _extract_tags(self, text):
         """Extract relevant tags from text"""
         tags = []
+
         tag_keywords = {
-            'AI': ['ai', 'artificial intelligence'],
-            'Automation': ['automation', 'automate'],
-            'Chatbot': ['chatbot', 'chat bot', 'conversational'],
-            'Analytics': ['analytics', 'analysis'],
-            'Productivity': ['productivity', 'productive'],
-            'Machine Learning': ['machine learning', 'ml', 'deep learning'],
-            'NLP': ['nlp', 'natural language', 'text processing']
+            'AI': ['ai', 'artificial intelligence', 'gpt', 'llm'],
+            'Automation': ['automation', 'automate', 'workflow'],
+            'Chatbot': ['chatbot', 'chat bot', 'conversational', 'assistant'],
+            'Analytics': ['analytics', 'analysis', 'data', 'metrics'],
+            'Productivity': ['productivity', 'productive', 'efficiency'],
+            'Machine Learning': ['machine learning', 'ml', 'deep learning', 'neural'],
+            'NLP': ['nlp', 'natural language', 'text processing'],
+            'Creative': ['image', 'video', 'audio', 'design', 'art', 'music', 'diffusion'],
+            'DevTools': ['code', 'developer', 'api', 'sdk', 'database']
         }
         
         text_lower = text.lower()
