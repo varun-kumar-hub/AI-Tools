@@ -1,74 +1,110 @@
 import React from 'react';
-import { Sparkles, Globe, Zap, Shield } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
-import { Badge } from '../components/ui/badge';
+import { Sparkles, Globe, Zap, Shield, Github, ExternalLink } from 'lucide-react';
 
-const About = () => {
-  const features = [
-    {
-      icon: Globe,
-      title: 'Multi-Source Scraping',
-      description: 'We automatically scrape and aggregate AI tools from Product Hunt, Hacker News, and Dev.to to keep you updated.'
-    },
-    {
-      icon: Zap,
-      title: 'Real-Time Updates',
-      description: 'Get instant access to newly released AI tools as soon as they are discovered and verified.'
-    },
-    {
-      icon: Sparkles,
-      title: 'Smart Categorization',
-      description: 'Tools are automatically categorized and tagged for easy discovery and exploration.'
-    },
-    {
-      icon: Shield,
-      title: 'Quality Curated',
-      description: 'Every tool is reviewed and verified before being added to our database.'
-    }
-  ];
+const features = [
+  {
+    icon: Globe,
+    title: 'Multi-Source Scraping',
+    description: 'Automatically aggregates AI tools from Product Hunt, Hacker News, and Dev.to so you never miss a launch.',
+    color: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
+  },
+  {
+    icon: Zap,
+    title: 'Hourly Updates',
+    description: 'GitHub Actions runs our scrapers every hour, keeping the database fresh with the latest AI innovations.',
+    color: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+  },
+  {
+    icon: Sparkles,
+    title: 'Smart Categorization',
+    description: 'Tools are automatically categorized and tagged for effortless discovery across any use case.',
+    color: 'text-violet-400 bg-violet-500/10 border-violet-500/20',
+  },
+  {
+    icon: Shield,
+    title: 'Quality Curated',
+    description: 'Deduplication and admin controls ensure every tool in the database is unique and high quality.',
+    color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+  },
+];
 
-  return (
-    <div className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+const sources = [
+  { name: 'Product Hunt', color: 'text-orange-400', desc: 'Newly launched products' },
+  { name: 'Hacker News', color: 'text-amber-400', desc: 'Show HN AI tools' },
+  { name: 'Dev.to', color: 'text-teal-400', desc: 'Developer AI tools' },
+];
+
+const About = () => (
+  <div className="min-h-screen">
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      <div className="absolute top-[-5%] left-[-5%] w-[400px] h-[400px] rounded-full bg-violet-600/6 blur-[90px] animate-pulse-slow" />
+      <div className="absolute bottom-[-5%] right-[0%] w-[300px] h-[300px] rounded-full bg-blue-600/5 blur-[80px] animate-pulse-slow" style={{ animationDelay: '3s' }} />
+    </div>
+
+    <div className="relative z-10 pt-24 pb-28 md:pb-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+
+      {/* Hero */}
       <div className="text-center mb-16 animate-fade-in-up">
-        <Badge className="mb-6 px-4 py-1.5 rounded-full bg-white/5 border-white/10 text-purple-300 hover:bg-white/10 transition-colors">
-          <Sparkles className="w-3 h-3 mr-2 text-purple-400" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-medium mb-6">
+          <Sparkles className="w-3 h-3" />
           Our Mission
-        </Badge>
-
-        <h1 className="text-4xl md:text-6xl font-bold mb-6">
+        </div>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-5">
           About <span className="text-gradient">AI Tools Hub</span>
         </h1>
-        <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-          Your centralized platform for discovering the latest AI tools from across the internet.
-          We scrape, categorize, and present the newest AI innovations so you don't have to search everywhere.
+        <p className="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          Your centralized platform for discovering the latest AI tools from across the internet —
+          scraped, categorized, and always up to date.
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 mb-16">
-        {features.map((feature, index) => {
-          const Icon = feature.icon;
+      {/* Features grid */}
+      <div className="grid sm:grid-cols-2 gap-4 mb-12">
+        {features.map((f, i) => {
+          const Icon = f.icon;
           return (
-            <div key={index} className="glass-card p-8 rounded-2xl hover:bg-white/10 border border-white/5 hover:border-purple-500/30 transition-all duration-300 group">
-              <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-2xl bg-white/5 text-purple-400 group-hover:scale-110 group-hover:bg-purple-500/20 group-hover:text-purple-300 transition-all duration-300">
-                <Icon className="w-8 h-8" />
+            <div key={i} className="glass-card p-6 rounded-2xl group">
+              <div className={`w-10 h-10 rounded-xl ${f.color} border flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110`}>
+                <Icon className="w-5 h-5" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors">{feature.title}</h3>
-              <p className="text-gray-400 leading-relaxed text-lg">{feature.description}</p>
+              <h3 className="font-semibold text-white text-[15px] mb-2">{f.title}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">{f.description}</p>
             </div>
           );
         })}
       </div>
 
-      <div className="glass-card p-8 md:p-12 rounded-3xl border border-white/10 bg-gradient-to-br from-purple-900/10 to-blue-900/10 text-center">
-        <h2 className="text-3xl font-bold text-white mb-6">Why We Built This</h2>
-        <p className="text-lg text-gray-300 leading-relaxed max-w-3xl mx-auto">
-          We believe in democratizing access to AI tools. Our mission is to help developers, creators,
-          and businesses discover the perfect AI tools for their needs by providing a centralized,
-          up-to-date directory that's always fresh with the latest innovations.
-        </p>
+      {/* Sources */}
+      <div className="glass-card rounded-2xl p-6 mb-8">
+        <h2 className="font-semibold text-white text-[15px] mb-4">Data Sources</h2>
+        <div className="flex flex-col sm:flex-row gap-3">
+          {sources.map((s, i) => (
+            <div key={i} className="flex-1 flex items-center gap-3 p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+              <div className="w-2 h-2 rounded-full bg-current shrink-0" style={{ color: 'inherit' }} />
+              <div>
+                <p className={`font-semibold text-sm ${s.color}`}>{s.name}</p>
+                <p className="text-gray-500 text-xs">{s.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+
+      {/* Mission CTA */}
+      <div className="relative overflow-hidden rounded-2xl p-8 text-center bg-gradient-to-br from-violet-900/20 to-blue-900/15 border border-violet-500/15">
+        <div className="absolute inset-0 bg-gradient-to-r from-violet-500/5 to-blue-500/5" />
+        <div className="relative z-10">
+          <h2 className="text-2xl font-bold text-white mb-3">Why We Built This</h2>
+          <p className="text-gray-400 text-sm leading-relaxed max-w-2xl mx-auto">
+            We believe in democratizing access to AI tools. Our mission is to help developers, creators,
+            and businesses discover the perfect tools by providing a centralized, always-fresh directory
+            of the latest AI innovations — fully automated.
+          </p>
+        </div>
+      </div>
+
     </div>
-  );
-};
+  </div>
+);
 
 export default About;
