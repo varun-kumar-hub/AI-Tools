@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import logging
 import time
 import re
+from .ai_filter import is_ai_tool
 
 logger = logging.getLogger(__name__)
 
@@ -73,15 +74,24 @@ class HackerNewsScraper:
                         url = hit.get('url') or f"https://news.ycombinator.com/item?id={hit.get('objectID')}"
                         if url in seen_urls:
                             continue
-                        seen_urls.add(url)
 
+                        title = hit.get('title', '')
+                        story_text = hit.get('story_text') or ''
+                        full_text = title + ' ' + story_text
+
+                        # ✅ AI keyword filter
+                        if not is_ai_tool(full_text):
+                            logger.debug(f"Skipped (not AI): {title[:60]}")
+                            continue
+
+                        seen_urls.add(url)
                         tool = {
-                            'name': hit.get('title', '')[:200],
-                            'description': self._clean_text(hit.get('story_text') or hit.get('title', '')),
+                            'name': title[:200],
+                            'description': self._clean_text(story_text or title),
                             'url': url,
                             'source': 'Hacker News',
-                            'tags': self._extract_tags(hit.get('title', '')),
-                            'category': self._categorize(hit.get('title', '') + ' ' + (hit.get('story_text') or '')),
+                            'tags': self._extract_tags(title),
+                            'category': self._categorize(full_text),
                             'is_deleted': False,
                             'created_at': datetime.now().isoformat()
                         }

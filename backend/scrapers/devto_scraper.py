@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import logging
 import time
 import re
+from .ai_filter import is_ai_tool
 
 logger = logging.getLogger(__name__)
 
@@ -68,18 +69,24 @@ class DevToScraper:
                         url = article.get('url', '')
                         if not url or url in seen_urls:
                             continue
-                        seen_urls.add(url)
 
                         title = article.get('title', '')
                         description = article.get('description', '') or title
+                        full_text = title + ' ' + description
 
+                        # ✅ AI keyword filter
+                        if not is_ai_tool(full_text):
+                            logger.debug(f"Skipped (not AI): {title[:60]}")
+                            continue
+
+                        seen_urls.add(url)
                         tool = {
                             'name': self._clean_title(title),
                             'description': self._clean_text(description),
                             'url': url,
                             'source': 'Dev.to',
                             'tags': article.get('tag_list', [])[:6],
-                            'category': self._categorize(title + ' ' + description),
+                            'category': self._categorize(full_text),
                             'is_deleted': False,
                             'created_at': datetime.now().isoformat()
                         }

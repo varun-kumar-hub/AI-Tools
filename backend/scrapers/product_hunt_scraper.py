@@ -5,6 +5,7 @@ from datetime import datetime
 import logging
 import time
 import re
+from .ai_filter import is_ai_tool
 from functools import wraps
 
 logger = logging.getLogger(__name__)
@@ -28,7 +29,7 @@ class ProductHuntScraper:
         return session
 
     def scrape(self, limit=50):
-        """Scrape AI tools from Product Hunt RSS feed — broader AI filter, higher limit"""
+        """Scrape AI tools from Product Hunt RSS feed — applies AI keyword filter"""
         try:
             tools = []
             response = self.session.get(self.rss_url, timeout=30)
@@ -43,7 +44,11 @@ class ProductHuntScraper:
                 description = entry.get('summary', '')
                 full_text = title + ' ' + description
 
-                # Include everything by default — sort by relevance later
+                # ✅ AI keyword filter — skip non-AI posts
+                if not is_ai_tool(full_text):
+                    logger.debug(f"Skipped (not AI): {title[:60]}")
+                    continue
+
                 tool = {
                     'name': title[:200],
                     'description': self._clean_text(description),
@@ -57,7 +62,7 @@ class ProductHuntScraper:
                 if self._validate_tool(tool):
                     tools.append(tool)
 
-            logger.info(f"ProductHunt: scraped {len(tools)} tools")
+            logger.info(f"ProductHunt: {len(tools)} AI tools (after filter)")
             return tools
         except Exception as e:
             logger.error(f"Error scraping Product Hunt: {e}")
