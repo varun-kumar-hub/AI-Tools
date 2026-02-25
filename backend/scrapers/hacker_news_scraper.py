@@ -161,4 +161,4 @@ class HackerNewsScraper:
             return ""
         text = re.sub(r'<[^>]+>', '', text)
         cleaned = ' '.join(text.split()).strip()
-        return cleaned[:500]  # Reasonable description length
+        return cleaned[:2000]  # Increased description length limit

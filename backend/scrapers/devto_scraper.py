@@ -149,4 +149,4 @@ class DevToScraper:
         if not text:
             return ""
         text = re.sub(r'<[^>]+>', '', text)
-        return ' '.join(text.split()).strip()[:500]
+        return ' '.join(text.split()).strip()[:2000]

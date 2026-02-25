@@ -114,7 +114,7 @@ const ToolDetail = () => {
                 <Info className="w-3.5 h-3.5 text-violet-400" />
                 <span className="text-xs font-semibold text-violet-300 uppercase tracking-wide">About this tool</span>
               </div>
-              <p className="text-gray-300 leading-relaxed text-[14px] sm:text-[15px] whitespace-pre-wrap">
+              <p className="text-gray-300 leading-relaxed text-[14px] sm:text-[15px] whitespace-pre-wrap line-clamp-5">
                 {description}
               </p>
             </div>

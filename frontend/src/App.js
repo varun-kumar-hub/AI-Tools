@@ -124,11 +124,17 @@ function AppContent() {
 
   return (
     <ToolsContext.Provider value={contextValue}>
-      <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
-        {/* Background orbs */}
-        <div className="fixed inset-0 z-0 pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-500/10 rounded-full blur-[120px] animate-pulse-slow" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+      <div className="min-h-screen inset-0 bg-background text-foreground relative overflow-hidden">
+        {/* Subtle Dark Background with Effects */}
+        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#070709]">
+          {/* Subtle glowing orbs in corners for dark depth */}
+          <div className="absolute top-[-25%] left-[-15%] w-[80%] h-[80%] rounded-full bg-violet-600/[0.04] blur-[120px] mix-blend-screen" />
+          <div className="absolute bottom-[-25%] right-[-15%] w-[80%] h-[80%] rounded-full bg-blue-600/[0.04] blur-[120px] mix-blend-screen" />
+
+          {/* Extremely subtle dust/stars texture */}
+          <div className="absolute top-[20%] left-[15%] w-1 h-1 bg-white/[0.08] rounded-full blur-[1px] animate-pulse-slow" />
+          <div className="absolute top-[60%] right-[25%] w-1.5 h-1.5 bg-violet-400/[0.08] rounded-full blur-[2px] animate-pulse-slow animation-delay-2000" />
+          <div className="absolute bottom-[30%] left-[30%] w-1 h-1 bg-blue-400/[0.08] rounded-full blur-[1px] animate-pulse-slow animation-delay-4000" />
         </div>
 
         <div className="relative z-10">
@@ -156,6 +162,13 @@ function AppContent() {
               />
             </Routes>
           </PullToRefresh>
+
+          {/* Global Footer Quote */}
+          <div className="py-6 text-center">
+            <p className="text-[11px] text-gray-500 uppercase tracking-widest font-medium">
+              "AI is a tool to amplify human ingenuity." – Fei-Fei Li
+            </p>
+          </div>
         </div>
 
         <Toaster />

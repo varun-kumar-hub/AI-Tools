@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { Plus, RefreshCw, Trash2, Edit, Clock, CheckCircle2 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
@@ -106,8 +107,8 @@ const NextScrapeWidget = () => {
           const isNext = new Date().getUTCHours() === h || (nextTime && nextTime.getUTCHours() === h);
           return (
             <span key={h} className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${nextTime && nextTime.getUTCHours() === h
-                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                : 'bg-white/[0.04] text-gray-600 border border-white/[0.05]'
+              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+              : 'bg-white/[0.04] text-gray-600 border border-white/[0.05]'
               }`}>{label}</span>
           );
         })}
@@ -268,73 +269,72 @@ const Admin = () => {
   };
 
   return (
-    <div className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6 animate-fade-in-up">
-        <div>
-          <h1 className="text-4xl font-bold mb-2">
+    <div className="pt-24 pb-24 md:pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12 gap-6 animate-fade-in-up">
+        <div className="w-full md:w-auto">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2">
             <span className="text-gradient">Admin Dashboard</span>
           </h1>
-          <p className="text-gray-400">Manage AI tools and run scraping tasks</p>
-
+          <p className="text-gray-400 text-sm sm:text-base">Manage AI tools and run scraping tasks</p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-          {/* Controls Group */}
-          <div className="flex bg-white/5 p-1 rounded-xl border border-white/10 self-start">
-            <div className="flex items-center px-3 gap-2 border-r border-white/10">
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Home</span>
+        <div className="flex flex-col w-full md:w-auto gap-4">
+          {/* Limits Controls */}
+          <div className="flex bg-white/[0.03] p-1.5 rounded-xl border border-white/[0.08] w-full sm:w-auto">
+            <div className="flex items-center justify-center flex-1 px-3 gap-2 border-r border-white/10">
+              <span className="text-[10px] sm:text-xs font-semibold text-gray-500 uppercase tracking-wider">Home</span>
               <Input
                 type="number"
                 min="1"
                 max="100"
                 value={displayLimit}
                 onChange={(e) => setDisplayLimit(parseInt(e.target.value) || 15)}
-                className="w-12 h-6 text-center bg-transparent border-none focus-visible:ring-0 p-0 text-white"
+                className="w-12 h-7 text-center bg-black/40 border border-white/10 rounded-lg focus-visible:ring-1 focus-visible:ring-purple-500/50 p-0 text-white text-xs font-medium"
               />
             </div>
-            <div className="flex items-center px-3 gap-2">
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Scrape</span>
+            <div className="flex items-center justify-center flex-1 px-3 gap-2">
+              <span className="text-[10px] sm:text-xs font-semibold text-gray-500 uppercase tracking-wider">Scrape</span>
               <Input
                 type="number"
                 min="1"
                 max="50"
                 value={scrapeLimit}
                 onChange={(e) => setScrapeLimit(parseInt(e.target.value) || 15)}
-                className="w-12 h-6 text-center bg-transparent border-none focus-visible:ring-0 p-0 text-white"
+                className="w-12 h-7 text-center bg-black/40 border border-white/10 rounded-lg focus-visible:ring-1 focus-visible:ring-purple-500/50 p-0 text-white text-xs font-medium"
               />
             </div>
           </div>
 
-          <div className="flex gap-2">
+          {/* Action Buttons */}
+          <div className="grid grid-cols-2 lg:flex gap-2.5 w-full md:w-auto">
             <Button
               onClick={handleSaveSettings}
-              variant="ghost"
-              size="icon"
-              className="text-gray-400 hover:text-white hover:bg-white/10"
-              title="Save Limit Settings"
+              variant="outline"
+              className="col-span-1 border-white/10 bg-white/[0.02] text-gray-300 hover:text-white hover:bg-white/[0.06] rounded-xl font-medium"
             >
-              <RefreshCw className="w-4 h-4" />
+              <RefreshCw className="w-4 h-4 sm:mr-2" />
+              <span className="text-xs sm:text-sm">Save</span>
             </Button>
 
             <Button
               onClick={handleScrape}
               disabled={isScrapingActive}
-              className="bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 backdrop-blur-md"
+              className="col-span-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 rounded-xl font-medium"
             >
               <RefreshCw className={`mr-2 w-4 h-4 ${isScrapingActive ? 'animate-spin' : ''}`} />
-              {isScrapingActive ? 'Scraping...' : 'Run Scraper'}
+              <span className="text-xs sm:text-sm">{isScrapingActive ? 'Scraping...' : 'Scrape'}</span>
             </Button>
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white border-none shadow-lg shadow-purple-900/20">
+                <Button className="col-span-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white border-none shadow-lg shadow-purple-900/20 rounded-xl font-medium">
                   <Plus className="mr-2 w-4 h-4" />
-                  Add Tool
+                  Add New Tool
                 </Button>
               </DialogTrigger>
-              <DialogContent className="bg-black/90 border-white/10 text-white sm:max-w-[500px]">
+              <DialogContent className="bg-[#0d0e14] border-white/10 text-white sm:max-w-[500px] rounded-2xl w-[90vw] max-w-[95vw]">
                 <DialogHeader>
-                  <DialogTitle>Add New Tool</DialogTitle>
+                  <DialogTitle className="text-xl font-bold">Add New Tool</DialogTitle>
                   <DialogDescription className="text-gray-400">
                     Manually add a new AI tool to the database
                   </DialogDescription>
@@ -344,22 +344,22 @@ const Admin = () => {
                     placeholder="Tool Name"
                     value={newTool.name}
                     onChange={(e) => setNewTool({ ...newTool, name: e.target.value })}
-                    className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-purple-500/50"
+                    className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-purple-500/50 rounded-xl px-4 py-3 h-auto"
                   />
                   <Textarea
                     placeholder="Description"
                     value={newTool.description}
                     onChange={(e) => setNewTool({ ...newTool, description: e.target.value })}
                     rows={4}
-                    className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-purple-500/50"
+                    className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-purple-500/50 rounded-xl p-4 resize-none"
                   />
                   <Select value={newTool.category} onValueChange={(value) => setNewTool({ ...newTool, category: value })}>
-                    <SelectTrigger className="bg-white/5 border-white/10 text-white">
+                    <SelectTrigger className="bg-white/5 border-white/10 text-white rounded-xl px-4 py-3 h-auto">
                       <SelectValue placeholder="Select Category" />
                     </SelectTrigger>
-                    <SelectContent className="bg-black border-white/10 text-white">
+                    <SelectContent className="bg-[#0d0e14] border-white/10 text-white rounded-xl">
                       {categories.map((cat) => (
-                        <SelectItem key={cat.id} value={cat.name} className="focus:bg-white/10 focus:text-white">
+                        <SelectItem key={cat.id} value={cat.name} className="focus:bg-white/10 focus:text-white cursor-pointer rounded-lg m-1">
                           {cat.name}
                         </SelectItem>
                       ))}
@@ -369,18 +369,18 @@ const Admin = () => {
                     placeholder="Tags (comma-separated)"
                     value={newTool.tags}
                     onChange={(e) => setNewTool({ ...newTool, tags: e.target.value })}
-                    className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-purple-500/50"
+                    className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-purple-500/50 rounded-xl px-4 py-3 h-auto"
                   />
                   <Input
                     placeholder="Website URL"
                     value={newTool.url}
                     onChange={(e) => setNewTool({ ...newTool, url: e.target.value })}
-                    className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-purple-500/50"
+                    className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-purple-500/50 rounded-xl px-4 py-3 h-auto"
                   />
                 </div>
-                <DialogFooter>
-                  <Button variant="ghost" onClick={() => setIsDialogOpen(false)} className="hover:bg-white/10 text-gray-400 hover:text-white">Cancel</Button>
-                  <Button onClick={handleAddTool} className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">Add Tool</Button>
+                <DialogFooter className="gap-2 sm:gap-0">
+                  <Button variant="ghost" onClick={() => setIsDialogOpen(false)} className="hover:bg-white/10 text-gray-400 hover:text-white rounded-xl">Cancel</Button>
+                  <Button onClick={handleAddTool} className="bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl">Add Tool</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
@@ -392,43 +392,46 @@ const Admin = () => {
       <NextScrapeWidget />
 
       {/* Tools Management Section */}
-      <div className="flex gap-4 mb-6">
+      <div className="flex p-1.5 bg-black/40 border border-white/10 rounded-2xl mb-8 w-full sm:w-fit">
         <Button
-          variant={showDeleted ? "ghost" : "default"}
+          variant="ghost"
           onClick={() => setShowDeleted(false)}
-          className={!showDeleted ? "bg-white/10 text-white hover:bg-white/20" : "text-gray-400 hover:text-white hover:bg-transparent"}
+          className={`flex-1 sm:flex-none rounded-xl text-sm font-medium transition-colors ${!showDeleted ? "bg-white/10 text-white" : "text-gray-400 hover:text-white hover:bg-white/5"}`}
         >
           Active Tools
         </Button>
         <Button
-          variant={showDeleted ? "default" : "ghost"}
+          variant="ghost"
           onClick={() => { setShowDeleted(true); fetchDeletedTools(); }}
-          className={showDeleted ? "bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20" : "text-gray-400 hover:text-red-400 hover:bg-transparent"}
+          className={`flex-1 sm:flex-none rounded-xl text-sm font-medium transition-colors ${showDeleted ? "bg-red-500/20 text-red-400" : "text-gray-400 hover:text-red-400 hover:bg-white/5"}`}
         >
           Trash / Deleted
         </Button>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {showDeleted ? (
           deletedTools.length === 0 ? (
-            <div className="col-span-full text-center py-20">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/5 mb-4">
+            <div className="col-span-full text-center py-20 bg-white/[0.02] border border-white/[0.05] rounded-3xl">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/[0.05] mb-4">
                 <Trash2 className="w-8 h-8 text-gray-600" />
               </div>
-              <p className="text-gray-500">Trash is empty</p>
+              <p className="text-gray-400 font-medium">Trash is empty</p>
             </div>
           ) : (
             deletedTools.map((tool) => (
-              <div key={tool.id} className="glass-card rounded-xl p-6 opacity-60 hover:opacity-100 transition-opacity border-red-500/20">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-lg font-bold text-gray-300 line-through decoration-red-500/50">{tool.name}</h3>
+              <div key={tool.id} className="bg-[#0d0e14] border border-red-500/20 rounded-2xl p-5 flex flex-col h-full opacity-70 hover:opacity-100 transition-opacity">
+                <div className="flex justify-between items-start mb-4 gap-3">
+                  <h3 className="text-[16px] font-bold text-gray-300 line-through decoration-red-500/50 leading-snug line-clamp-2">{tool.name}</h3>
+                </div>
+                <p className="text-gray-500 text-[13px] line-clamp-2 mb-4">{tool.description}</p>
+                <div className="mt-auto pt-4 border-t border-red-500/10 flex justify-end">
                   <Button
                     size="sm"
                     onClick={() => handleRestoreTool(tool.id)}
-                    className="h-8 bg-green-500/10 text-green-400 hover:bg-green-500/20 border-none"
+                    className="bg-green-500/10 text-green-400 hover:bg-green-500/20 hover:text-green-300 border-none rounded-xl text-xs font-semibold"
                   >
-                    <RefreshCw className="w-3 h-3 mr-1" /> Restore
+                    <RefreshCw className="w-3.5 h-3.5 mr-1.5" /> Restore Tool
                   </Button>
                 </div>
               </div>
@@ -436,56 +439,62 @@ const Admin = () => {
           )
         ) : (
           tools.slice(0, displayLimit).map((tool) => (
-            <div key={tool.id} className="glass-card rounded-xl p-6 group">
-              <div className="flex justify-between items-start mb-4">
-                <Badge variant="outline" className="bg-purple-500/10 text-purple-300 border-purple-500/20">
-                  {tool.category}
-                </Badge>
-                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button size="icon" variant="ghost" className="h-8 w-8 text-gray-400 hover:text-blue-400 hover:bg-blue-400/10">
-                    <Edit className="w-4 h-4" />
+            <div key={tool.id} className="bg-[#0d0e14] border border-white/[0.06] hover:border-violet-500/30 rounded-2xl p-5 group flex flex-col h-full transition-colors shadow-lg shadow-black/20">
+              <div className="flex justify-between items-start mb-4 gap-3">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/20 text-purple-300 shrink-0">
+                  {tool.category || 'Other'}
+                </span>
+
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <Button size="icon" variant="ghost" className="h-8 w-8 text-gray-400 hover:text-blue-400 hover:bg-blue-400/10 rounded-lg shrink-0">
+                    <Edit className="w-3.5 h-3.5" />
                   </Button>
                   <Button
                     size="icon"
                     variant="ghost"
-                    className="h-8 w-8 text-gray-400 hover:text-red-400 hover:bg-red-400/10"
+                    className="h-8 w-8 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg shrink-0"
                     onClick={() => handleDeleteTool(tool.id)}
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3.5 h-3.5" />
                   </Button>
                 </div>
               </div>
 
-              <h3 className="text-lg font-bold text-white mb-2">{tool.name}</h3>
-              <p className="text-gray-400 text-sm line-clamp-2 leading-relaxed">{tool.description}</p>
+              <h3 className="text-[16px] font-bold text-white mb-2 leading-tight group-hover:text-violet-400 transition-colors">{tool.name}</h3>
+              <p className="text-gray-400 text-[13px] leading-relaxed line-clamp-2 flex-1">{tool.description}</p>
 
-              <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center text-xs text-gray-500">
-                <span>{new Date(tool.created_at || Date.now()).toLocaleDateString()}</span>
-                <span className="bg-white/5 px-2 py-0.5 rounded text-gray-400">{tool.source}</span>
+              <div className="mt-5 pt-4 border-t border-white/[0.06] flex justify-between items-center">
+                <p className="text-[10px] text-gray-500 font-mono tracking-wider">
+                  {new Date(tool.created_at || Date.now()).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
+                </p>
+                <span className="bg-white/[0.03] px-2 py-0.5 rounded-md border border-white/[0.05] text-gray-400 text-[10px] uppercase font-mono tracking-wider">
+                  {tool.source || 'Manual'}
+                </span>
               </div>
             </div>
           ))
         )}
       </div>
 
-      <div className="text-center py-12 mt-8 border-t border-white/5">
-        <p className="text-gray-500">
-          Head over to the <a href="/" className="text-purple-400 hover:text-purple-300 transition-colors">Home Page</a> to view all tools.
+      <div className="text-center py-12 mt-8 border-t border-white/[0.05]">
+        <p className="text-gray-500 text-sm">
+          Head over to the <Link to="/" className="text-violet-400 hover:text-violet-300 transition-colors font-medium">Home Page</Link> to view all tools.
         </p>
       </div>
 
+      {/* Delete Confirmation Dialog */}
       <AlertDialog open={!!toolToDelete} onOpenChange={() => setToolToDelete(null)}>
-        <AlertDialogContent className="bg-black/90 border-white/10 text-white">
+        <AlertDialogContent className="bg-[#0d0e14] border border-white/10 text-white rounded-2xl max-w-[90vw] sm:max-w-[400px]">
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle className="text-lg">Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription className="text-gray-400">
               This action will move the tool to the trash. You can restore it later from the "Trash / Deleted" section.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="bg-transparent border-white/10 text-gray-300 hover:bg-white/5 hover:text-white">Cancel</AlertDialogCancel>
-            <Button onClick={confirmDelete} className="bg-red-500/20 hover:bg-red-500/30 text-red-500 border border-red-500/30">
-              Delete
+          <AlertDialogFooter className="mt-2">
+            <AlertDialogCancel className="bg-transparent border-white/10 text-gray-300 hover:bg-white/5 hover:text-white rounded-xl">Cancel</AlertDialogCancel>
+            <Button onClick={confirmDelete} className="bg-red-500/20 hover:bg-red-500/30 text-red-500 border border-red-500/30 rounded-xl">
+              Delete Tool
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -493,17 +502,17 @@ const Admin = () => {
 
       {/* Restore Confirmation Dialog */}
       <AlertDialog open={!!toolToRestore} onOpenChange={() => setToolToRestore(null)}>
-        <AlertDialogContent className="bg-black/90 border-white/10 text-white">
+        <AlertDialogContent className="bg-[#0d0e14] border border-white/10 text-white rounded-2xl max-w-[90vw] sm:max-w-[400px]">
           <AlertDialogHeader>
-            <AlertDialogTitle>Restore this tool?</AlertDialogTitle>
+            <AlertDialogTitle className="text-lg">Restore this tool?</AlertDialogTitle>
             <AlertDialogDescription className="text-gray-400">
               This action will move the tool back to the "Active Tools" list and make it visible on the home page.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="bg-transparent border-white/10 text-gray-300 hover:bg-white/5 hover:text-white">Cancel</AlertDialogCancel>
-            <Button onClick={confirmRestore} className="bg-green-500/20 hover:bg-green-500/30 text-green-500 border border-green-500/30">
-              Restore
+          <AlertDialogFooter className="mt-2">
+            <AlertDialogCancel className="bg-transparent border-white/10 text-gray-300 hover:bg-white/5 hover:text-white rounded-xl">Cancel</AlertDialogCancel>
+            <Button onClick={confirmRestore} className="bg-green-500/20 hover:bg-green-500/30 text-green-500 border border-green-500/30 rounded-xl">
+              Restore Tool
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -32,7 +32,9 @@ const categoryColors = {
 const getCategoryStyle = (cat) => categoryColors[cat] || categoryColors['Other'];
 
 const ToolCard = ({ tool, isAdmin, onDelete }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
   const catStyle = getCategoryStyle(tool.category);
+
   return (
     <div className="tool-card group">
       <div className="p-5 flex-1 flex flex-col gap-3">
@@ -54,9 +56,14 @@ const ToolCard = ({ tool, isAdmin, onDelete }) => {
         </h3>
 
         {/* Description */}
-        <p className="text-gray-400 text-[13px] leading-relaxed line-clamp-3 flex-1">
-          {tool.description}
-        </p>
+        <div
+          className="flex-1 cursor-pointer group/desc"
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          <p className={`text-gray-400 text-[13px] leading-relaxed transition-all duration-300 ${isExpanded ? 'line-clamp-5' : 'line-clamp-1'}`}>
+            {tool.description}
+          </p>
+        </div>
 
         {/* Tags */}
         {tool.tags?.length > 0 && (
@@ -147,12 +154,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Background orbs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-15%] left-[10%] w-[500px] h-[500px] rounded-full bg-violet-600/8 blur-[100px] animate-pulse-slow" />
-        <div className="absolute bottom-[-10%] right-[5%] w-[400px] h-[400px] rounded-full bg-blue-600/6 blur-[80px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
-      </div>
-
       <div className="relative z-10 pt-24 pb-28 md:pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
 
         {/* ── Hero ── */}
