@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { Search as SearchIcon, Filter, ExternalLink, ArrowRight, X, Loader2 } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Search as SearchIcon, Filter, ExternalLink, ArrowRight, X, Loader2, ArrowLeft } from 'lucide-react';
 import { ToolsContext } from '../App';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 
 const Search = () => {
+  const navigate = useNavigate();
   const { tools, categories, loading } = useContext(ToolsContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -43,7 +44,16 @@ const Search = () => {
         <div className="absolute top-[-5%] left-[30%] w-[350px] h-[350px] rounded-full bg-violet-600/6 blur-[80px] animate-pulse-slow" />
       </div>
 
-      <div className="relative z-10 pt-24 pb-28 md:pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="relative z-10 pt-20 pb-28 md:pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+
+        {/* Back nav */}
+        <button
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-300 mb-6 transition-colors group"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+          Back
+        </button>
 
         {/* Header */}
         <div className="text-center mb-10 animate-fade-in-up">
