@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Plus, RefreshCw, Trash2, Edit } from 'lucide-react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
+import { Plus, RefreshCw, Trash2, Edit, Clock, CheckCircle2 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
@@ -24,6 +24,98 @@ import { toolsAPI } from '../utils/supabase';
 import config from '../config';
 
 const BACKEND_URL = config.BACKEND_URL;
+
+// GitHub Actions cron: '0 0,2,4,6,8,10,12,14,16,18,20,22 * * *' (UTC)
+const SCRAPE_HOURS_UTC = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22];
+
+const getNextScrapeTime = () => {
+  const now = new Date();
+  const nowUTC = new Date(now.getTime()); // already UTC from Date
+  const currentUTCHour = nowUTC.getUTCHours();
+  const currentUTCMinute = nowUTC.getUTCMinutes();
+
+  // Find next scheduled hour in UTC
+  let nextHour = SCRAPE_HOURS_UTC.find(h => h > currentUTCHour || (h === currentUTCHour && currentUTCMinute < 1));
+  let dayOffset = 0;
+  if (nextHour === undefined) {
+    nextHour = SCRAPE_HOURS_UTC[0]; // wrap to midnight
+    dayOffset = 1;
+  }
+
+  const next = new Date(nowUTC);
+  next.setUTCDate(next.getUTCDate() + dayOffset);
+  next.setUTCHours(nextHour, 0, 0, 0);
+  return next;
+};
+
+const formatCountdown = (ms) => {
+  if (ms <= 0) return '00:00:00';
+  const totalSeconds = Math.floor(ms / 1000);
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  return [h, m, s].map(v => String(v).padStart(2, '0')).join(':');
+};
+
+const NextScrapeWidget = () => {
+  const [countdown, setCountdown] = useState('');
+  const [nextTime, setNextTime] = useState(null);
+
+  const tick = useCallback(() => {
+    const next = getNextScrapeTime();
+    setNextTime(next);
+    const diff = next.getTime() - Date.now();
+    setCountdown(formatCountdown(diff));
+  }, []);
+
+  useEffect(() => {
+    tick();
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
+  }, [tick]);
+
+  if (!nextTime) return null;
+
+  const localTime = nextTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const localDate = nextTime.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
+
+  return (
+    <div className="flex items-start gap-4 p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/15 mb-6">
+      {/* Icon + label */}
+      <div className="w-9 h-9 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0">
+        <Clock className="w-4 h-4 text-emerald-400" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-xs text-emerald-500 font-semibold uppercase tracking-wide mb-1">Next Auto-Scrape</p>
+        <div className="flex flex-wrap items-baseline gap-3">
+          {/* Countdown */}
+          <span className="text-xl font-mono font-bold text-white tracking-tight">{countdown}</span>
+          {/* Local time */}
+          <span className="text-sm text-gray-400">
+            at <span className="text-gray-300 font-medium">{localTime}</span>
+            <span className="text-gray-600 mx-1">·</span>
+            <span className="text-gray-500">{localDate}</span>
+          </span>
+        </div>
+        <p className="text-[11px] text-gray-600 mt-1">GitHub Actions runs every 2 hours (UTC schedule)</p>
+      </div>
+      {/* Schedule pills */}
+      <div className="hidden md:flex flex-wrap gap-1 max-w-[220px] justify-end shrink-0">
+        {SCRAPE_HOURS_UTC.map(h => {
+          const label = `${String(h).padStart(2, '0')}:00`;
+          const isNext = new Date().getUTCHours() === h || (nextTime && nextTime.getUTCHours() === h);
+          return (
+            <span key={h} className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${nextTime && nextTime.getUTCHours() === h
+                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                : 'bg-white/[0.04] text-gray-600 border border-white/[0.05]'
+              }`}>{label}</span>
+          );
+        })}
+        <span className="text-[9px] text-gray-700 w-full text-right mt-0.5">UTC times</span>
+      </div>
+    </div>
+  );
+};
 
 const Admin = () => {
   const { tools, categories, refresh, stats } = useContext(ToolsContext);
@@ -183,11 +275,7 @@ const Admin = () => {
             <span className="text-gradient">Admin Dashboard</span>
           </h1>
           <p className="text-gray-400">Manage AI tools and run scraping tasks</p>
-          {stats?.next_scrape_time && (
-            <div className="inline-flex items-center mt-3 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium">
-              Next scrape: {new Date(stats.next_scrape_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </div>
-          )}
+
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
@@ -299,6 +387,9 @@ const Admin = () => {
           </div>
         </div>
       </div>
+
+      {/* Next Scrape Widget */}
+      <NextScrapeWidget />
 
       {/* Tools Management Section */}
       <div className="flex gap-4 mb-6">
