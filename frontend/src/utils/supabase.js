@@ -20,9 +20,8 @@ export const toolsAPI = {
       query = query.eq('category', category);
     }
 
-    // Filter out deleted items (assuming is_deleted column exists)
-    // We check for false or null to be safe for migration
-    query = query.is('is_deleted', false);
+    // Filter out deleted items — use neq to include both false and null values
+    query = query.neq('is_deleted', true);
 
 
     if (search) {
