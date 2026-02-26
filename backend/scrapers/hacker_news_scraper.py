@@ -43,6 +43,16 @@ class HackerNewsScraper:
                 'Show HN agent',
                 'Show HN automation',
                 'Show HN RAG',
+                'Show HN SaaS',
+                'Show HN API',
+                'Show HN devtools',
+                'Show HN framework',
+                'Show HN app',
+                'Show HN web',
+                'Show HN AI writing',
+                'Show HN AI video',
+                'Show HN AI audio',
+                'Show HN AI content generator',
             ]
 
             # Timestamp for last 48 hours — get fresh results each run
@@ -114,14 +124,18 @@ class HackerNewsScraper:
     def _extract_tags(self, text):
         tags = []
         tag_keywords = {
-            'AI': ['ai', 'artificial intelligence', 'gpt', 'llm', 'generative', 'openai', 'claude'],
-            'Open Source': ['open source', 'oss', 'open-source'],
-            'Developer Tools': ['devtools', 'developer', 'tools', 'api', 'sdk', 'cli'],
-            'Automation': ['automation', 'automate', 'workflow', 'agent', 'bot'],
-            'Machine Learning': ['machine learning', 'ml', 'neural', 'deep learning', 'computer vision'],
-            'Data Science': ['data science', 'analytics', 'data engineering', 'pipeline'],
-            'RAG': ['rag', 'retrieval', 'vector', 'embedding', 'knowledge base'],
-            'Agents': ['agent', 'autonomous', 'multi-agent'],
+            'AI': ['ai', 'artificial intelligence', 'gpt', 'llm', 'openai', 'claude', 'gemini', 'llama', 'mistral', 'anthropic', 'huggingface'],
+            'Machine Learning': ['machine learning', 'ml', 'deep learning', 'neural network', 'model', 'nlp', 'computer vision'],
+            'Generative AI': ['generative ai', 'genai', 'diffusion', 'midjourney', 'dall-e', 'text-to', 'generation'],
+            'Automation & Agents': ['automation', 'automate', 'workflow', 'agent', 'autonomous', 'copilot'],
+            'Chatbot': ['chatbot', 'chat', 'assistant', 'conversation'],
+            'Data & Analytics': ['analytics', 'analysis', 'data', 'metrics', 'insights', 'predictive', 'big data', 'vector', 'rag'],
+            'DevTools': ['code', 'developer', 'api', 'sdk', 'database', 'devops', 'framework', 'frontend', 'backend', 'open source', 'github'],
+            'Tech & Cloud': ['software', 'technology', 'cloud', 'security', 'saas', 'startup', 'aws', 'docker'],
+            'Web/Mobile App': ['web', 'app', 'ios', 'android', 'react', 'next.js', 'mobile'],
+            'No-Code': ['no-code', 'no code', 'low-code', 'drag and drop'],
+            'Video & Audio': ['video', 'audio', 'podcast', 'voice', 'speech', 'music'],
+            'Content & Writing': ['writing', 'content', 'blog', 'copywriting', 'essay', 'summarize', 'text'],
         }
         text_lower = text.lower()
         for tag, keywords in tag_keywords.items():
@@ -132,12 +146,16 @@ class HackerNewsScraper:
     def _categorize(self, text):
         text_lower = text.lower()
         categories = {
-            'Code & Development': ['code', 'programming', 'developer', 'api', 'github', 'software', 'devops'],
-            'Data Analysis': ['data', 'analytics', 'visualization', 'dashboard', 'metrics'],
-            'Productivity': ['productivity', 'workflow', 'task', 'management'],
-            'Research & Education': ['research', 'education', 'learning'],
-            'Content Writing': ['writing', 'content', 'blog'],
-            'Design & Creative': ['image', 'art', 'design', 'generate', 'diffusion'],
+            'Code & Development': ['code', 'programming', 'developer', 'api', 'github', 'software', 'devops', 'sdk', 'framework', 'library', 'backend', 'frontend', 'fullstack', 'open source', 'react', 'python', 'javascript', 'docker'],
+            'Data & Analytics': ['data', 'analytics', 'visualization', 'dashboard', 'metrics', 'insights', 'bi', 'big data', 'pipeline'],
+            'AI & Machine Learning': ['machine learning', 'ml', 'deep learning', 'neural', 'model', 'llm', 'rag', 'embedding', 'vector', 'generative', 'nlp', 'computer vision'],
+            'Productivity & Automation': ['productivity', 'task', 'workflow', 'management', 'organize', 'efficiency', 'calendar', 'automation', 'agent', 'bot', 'copilot'],
+            'Video & Audio': ['video', 'audio', 'media', 'podcast', 'transcription', 'voice', 'music', 'speech', 'text-to-video', 'text-to-speech'],
+            'Design & Creative': ['design', 'creative', 'graphic', 'art', 'image', 'photo', 'generate', 'diffusion', 'text-to-image', 'midjourney'],
+            'Marketing & Sales': ['marketing', 'sales', 'advertising', 'seo', 'campaign', 'email', 'lead', 'crm'],
+            'Content Writing': ['writing', 'content', 'blog', 'copy', 'article', 'text', 'essay', 'summarize', 'prompt'],
+            'Customer Service & Chat': ['customer', 'service', 'support', 'helpdesk', 'chat', 'ticket', 'chatbot', 'assistant', 'conversation'],
+            'Research & Education': ['research', 'education', 'learning', 'study', 'academic', 'teaching', 'quiz', 'tutorial'],
         }
         scores = {}
         for category, keywords in categories.items():

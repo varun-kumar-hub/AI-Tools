@@ -71,16 +71,18 @@ class ProductHuntScraper:
     def _extract_tags(self, text):
         tags = []
         tag_keywords = {
-            'AI': ['ai', 'artificial intelligence', 'gpt', 'llm', 'openai', 'claude', 'gemini'],
-            'Automation': ['automation', 'automate', 'workflow', 'agent'],
+            'AI': ['ai', 'artificial intelligence', 'gpt', 'llm', 'openai', 'claude', 'gemini', 'llama', 'mistral', 'anthropic', 'huggingface'],
+            'Machine Learning': ['machine learning', 'ml', 'deep learning', 'neural network', 'model', 'nlp', 'computer vision'],
+            'Generative AI': ['generative ai', 'genai', 'diffusion', 'midjourney', 'dall-e', 'text-to', 'generation'],
+            'Automation & Agents': ['automation', 'automate', 'workflow', 'agent', 'autonomous', 'copilot'],
             'Chatbot': ['chatbot', 'chat', 'assistant', 'conversation'],
-            'Analytics': ['analytics', 'analysis', 'data', 'metrics', 'insights'],
-            'Productivity': ['productivity', 'efficiency', 'organize', 'task'],
-            'Machine Learning': ['machine learning', 'ml', 'deep learning', 'neural', 'model'],
-            'NLP': ['nlp', 'natural language', 'text', 'speech'],
-            'Creative': ['image', 'video', 'audio', 'design', 'art', 'music', 'diffusion', 'generate'],
-            'DevTools': ['code', 'developer', 'api', 'sdk', 'database', 'devops'],
+            'Data & Analytics': ['analytics', 'analysis', 'data', 'metrics', 'insights', 'predictive', 'big data', 'vector', 'rag'],
+            'DevTools': ['code', 'developer', 'api', 'sdk', 'database', 'devops', 'framework', 'frontend', 'backend', 'open source', 'github'],
+            'Tech & Cloud': ['software', 'technology', 'cloud', 'security', 'saas', 'startup', 'aws', 'docker'],
+            'Web/Mobile App': ['web', 'app', 'ios', 'android', 'react', 'next.js', 'mobile'],
             'No-Code': ['no-code', 'no code', 'low-code', 'drag and drop'],
+            'Video & Audio': ['video', 'audio', 'podcast', 'voice', 'speech', 'music'],
+            'Content & Writing': ['writing', 'content', 'blog', 'copywriting', 'essay', 'summarize', 'text'],
         }
         text_lower = text.lower()
         for tag, keywords in tag_keywords.items():
@@ -91,15 +93,16 @@ class ProductHuntScraper:
     def _categorize(self, text):
         text_lower = text.lower()
         categories = {
-            'Code & Development': ['code', 'programming', 'developer', 'api', 'github', 'software', 'devops', 'sdk'],
-            'Data Analysis': ['data', 'analytics', 'visualization', 'dashboard', 'metrics', 'insights', 'bi'],
-            'Productivity': ['productivity', 'task', 'workflow', 'management', 'organize', 'efficiency', 'calendar'],
-            'Video & Audio': ['video', 'audio', 'media', 'podcast', 'transcription', 'voice', 'music', 'speech'],
-            'Research & Education': ['research', 'education', 'learning', 'study', 'academic', 'teaching', 'quiz'],
-            'Design & Creative': ['design', 'creative', 'graphic', 'art', 'image', 'photo', 'generate', 'diffusion'],
+            'Code & Development': ['code', 'programming', 'developer', 'api', 'github', 'software', 'devops', 'sdk', 'framework', 'library', 'backend', 'frontend', 'fullstack', 'open source', 'react', 'python', 'javascript', 'docker'],
+            'Data & Analytics': ['data', 'analytics', 'visualization', 'dashboard', 'metrics', 'insights', 'bi', 'big data', 'pipeline'],
+            'AI & Machine Learning': ['machine learning', 'ml', 'deep learning', 'neural', 'model', 'llm', 'rag', 'embedding', 'vector', 'generative', 'nlp', 'computer vision'],
+            'Productivity & Automation': ['productivity', 'task', 'workflow', 'management', 'organize', 'efficiency', 'calendar', 'automation', 'agent', 'bot', 'copilot'],
+            'Video & Audio': ['video', 'audio', 'media', 'podcast', 'transcription', 'voice', 'music', 'speech', 'text-to-video', 'text-to-speech'],
+            'Design & Creative': ['design', 'creative', 'graphic', 'art', 'image', 'photo', 'generate', 'diffusion', 'text-to-image', 'midjourney'],
             'Marketing & Sales': ['marketing', 'sales', 'advertising', 'seo', 'campaign', 'email', 'lead', 'crm'],
-            'Content Writing': ['writing', 'content', 'blog', 'copy', 'article', 'text', 'essay', 'summarize'],
-            'Customer Service': ['customer', 'service', 'support', 'helpdesk', 'chat', 'ticket'],
+            'Content Writing': ['writing', 'content', 'blog', 'copy', 'article', 'text', 'essay', 'summarize', 'prompt'],
+            'Customer Service & Chat': ['customer', 'service', 'support', 'helpdesk', 'chat', 'ticket', 'chatbot', 'assistant', 'conversation'],
+            'Research & Education': ['research', 'education', 'learning', 'study', 'academic', 'teaching', 'quiz', 'tutorial'],
         }
         scores = {}
         for category, keywords in categories.items():

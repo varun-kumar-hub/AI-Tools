@@ -45,6 +45,20 @@ AI_KEYWORDS = [
     'ai productivity', 'ai automation',
     'ai analytics', 'predictive ai',
     'ai for', 'using ai', 'with ai',
+    'ai writing', 'ai content', 'ai copywriter', 'ai blogging',
+    'ai audio', 'ai voice', 'ai podcast', 'ai music generation',
+    'ai video', 'ai video editing', 'ai video generator', 'ai animation',
+
+    # General Tech & Development
+    'software', 'saas', 'cloud', 'api ', 'framework', 'database', 'developer tools',
+    'devtools', 'cybersecurity', 'blockchain', 'web3', 'fintech', 'edtech',
+    'healthtech', 'data science', 'big data', 'automation', 'devops', 'frontend',
+    'backend', 'fullstack', 'open source', 'oss', 'startup',
+    'technology', 'innovation', 'app development', 'web development',
+    'mobile app', 'ios', 'android', 'react', 'next.js', 'python', 'javascript',
+    'typescript', 'aws', 'gcp', 'azure', 'docker', 'kubernetes', 'serverless',
+    'machine vision', 'robotics', 'iot', 'internet of things', 'ar/vr', 'virtual reality',
+    'augmented reality', 'quantum computing', 'edge computing', '5g',
 ]
 
 # Convert all to lowercase once for performance

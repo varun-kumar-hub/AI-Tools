@@ -7,39 +7,51 @@ import { Sparkles, Loader2 } from 'lucide-react';
 const iconMap = {
   'Code & Development': 'Code2',
   'Data Analysis': 'BarChart3',
+  'Data & Analytics': 'BarChart3',
+  'AI & Machine Learning': 'Cpu',
   'Productivity': 'Zap',
+  'Productivity & Automation': 'Zap',
   'Video & Audio': 'Video',
   'Research & Education': 'BookOpen',
   'Design & Creative': 'Palette',
   'Marketing & Sales': 'Megaphone',
   'Content Writing': 'PenTool',
   'Customer Service': 'MessageCircle',
+  'Customer Service & Chat': 'MessageCircle',
   'Other': 'Grid3X3',
 };
 
 const categoryGradients = {
   'Code & Development': 'from-blue-500/15 to-cyan-500/10 border-blue-500/15 group-hover:border-blue-500/30',
   'Data Analysis': 'from-emerald-500/15 to-teal-500/10 border-emerald-500/15 group-hover:border-emerald-500/30',
+  'Data & Analytics': 'from-emerald-500/15 to-teal-500/10 border-emerald-500/15 group-hover:border-emerald-500/30',
+  'AI & Machine Learning': 'from-indigo-500/15 to-violet-500/10 border-indigo-500/15 group-hover:border-indigo-500/30',
   'Productivity': 'from-amber-500/15 to-orange-500/10 border-amber-500/15 group-hover:border-amber-500/30',
+  'Productivity & Automation': 'from-amber-500/15 to-orange-500/10 border-amber-500/15 group-hover:border-amber-500/30',
   'Video & Audio': 'from-purple-500/15 to-fuchsia-500/10 border-purple-500/15 group-hover:border-purple-500/30',
   'Research & Education': 'from-indigo-500/15 to-blue-500/10 border-indigo-500/15 group-hover:border-indigo-500/30',
   'Design & Creative': 'from-pink-500/15 to-rose-500/10 border-pink-500/15 group-hover:border-pink-500/30',
   'Marketing & Sales': 'from-red-500/15 to-orange-500/10 border-red-500/15 group-hover:border-red-500/30',
   'Content Writing': 'from-violet-500/15 to-purple-500/10 border-violet-500/15 group-hover:border-violet-500/30',
   'Customer Service': 'from-teal-500/15 to-cyan-500/10 border-teal-500/15 group-hover:border-teal-500/30',
+  'Customer Service & Chat': 'from-teal-500/15 to-cyan-500/10 border-teal-500/15 group-hover:border-teal-500/30',
   'Other': 'from-gray-500/15 to-slate-500/10 border-gray-500/15 group-hover:border-gray-500/30',
 };
 
 const iconColors = {
   'Code & Development': 'text-blue-400 bg-blue-500/15',
   'Data Analysis': 'text-emerald-400 bg-emerald-500/15',
+  'Data & Analytics': 'text-emerald-400 bg-emerald-500/15',
+  'AI & Machine Learning': 'text-indigo-400 bg-indigo-500/15',
   'Productivity': 'text-amber-400 bg-amber-500/15',
+  'Productivity & Automation': 'text-amber-400 bg-amber-500/15',
   'Video & Audio': 'text-purple-400 bg-purple-500/15',
   'Research & Education': 'text-indigo-400 bg-indigo-500/15',
   'Design & Creative': 'text-pink-400 bg-pink-500/15',
   'Marketing & Sales': 'text-red-400 bg-red-500/15',
   'Content Writing': 'text-violet-400 bg-violet-500/15',
   'Customer Service': 'text-teal-400 bg-teal-500/15',
+  'Customer Service & Chat': 'text-teal-400 bg-teal-500/15',
   'Other': 'text-gray-400 bg-gray-500/15',
 };
 

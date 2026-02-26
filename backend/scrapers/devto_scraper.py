@@ -38,6 +38,11 @@ class DevToScraper:
                 'ai', 'machinelearning', 'datascience',
                 'llm', 'openai', 'python', 'deeplearning',
                 'nlp', 'generativeai', 'aitools',
+                'webdev', 'javascript', 'react', 'nextjs', 'programming',
+                'softwaredevelopment', 'devtools', 'opensource', 'saas',
+                'cloud', 'devops', 'api', 'frontend', 'backend',
+                'contentcreation', 'writing', 'copywriting', 'video', 'audio',
+                'podcast', 'music', 'creativeai'
             ]
 
             per_tag = max(10, limit // len(tags))
@@ -119,14 +124,16 @@ class DevToScraper:
     def _categorize(self, text):
         text_lower = text.lower()
         categories = {
-            'Code & Development': ['code', 'programming', 'developer', 'api', 'github', 'software', 'framework', 'library'],
-            'Data Analysis': ['data', 'analytics', 'visualization', 'dashboard', 'metrics', 'insights', 'pipeline'],
-            'Productivity': ['productivity', 'workflow', 'task', 'management', 'organize', 'efficiency'],
-            'Video & Audio': ['video', 'audio', 'media', 'podcast', 'transcription', 'voice', 'speech'],
-            'Research & Education': ['research', 'learning', 'education', 'study', 'academic', 'tutorial'],
-            'Content Writing': ['writing', 'content', 'blog', 'copy', 'article', 'text', 'summarize'],
-            'Design & Creative': ['design', 'creative', 'graphic', 'art', 'image', 'generate', 'diffusion'],
-            'Marketing & Sales': ['marketing', 'sales', 'seo', 'email', 'campaign', 'growth'],
+            'Code & Development': ['code', 'programming', 'developer', 'api', 'github', 'software', 'devops', 'sdk', 'framework', 'library', 'backend', 'frontend', 'fullstack', 'open source', 'react', 'python', 'javascript', 'docker'],
+            'Data & Analytics': ['data', 'analytics', 'visualization', 'dashboard', 'metrics', 'insights', 'bi', 'big data', 'pipeline'],
+            'AI & Machine Learning': ['machine learning', 'ml', 'deep learning', 'neural', 'model', 'llm', 'rag', 'embedding', 'vector', 'generative', 'nlp', 'computer vision'],
+            'Productivity & Automation': ['productivity', 'task', 'workflow', 'management', 'organize', 'efficiency', 'calendar', 'automation', 'agent', 'bot', 'copilot'],
+            'Video & Audio': ['video', 'audio', 'media', 'podcast', 'transcription', 'voice', 'music', 'speech', 'text-to-video', 'text-to-speech'],
+            'Design & Creative': ['design', 'creative', 'graphic', 'art', 'image', 'photo', 'generate', 'diffusion', 'text-to-image', 'midjourney'],
+            'Marketing & Sales': ['marketing', 'sales', 'advertising', 'seo', 'campaign', 'email', 'lead', 'crm'],
+            'Content Writing': ['writing', 'content', 'blog', 'copy', 'article', 'text', 'essay', 'summarize', 'prompt'],
+            'Customer Service & Chat': ['customer', 'service', 'support', 'helpdesk', 'chat', 'ticket', 'chatbot', 'assistant', 'conversation'],
+            'Research & Education': ['research', 'education', 'learning', 'study', 'academic', 'teaching', 'quiz', 'tutorial'],
         }
         scores = {}
         for category, keywords in categories.items():

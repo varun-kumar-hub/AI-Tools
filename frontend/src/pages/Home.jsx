@@ -19,13 +19,17 @@ const BACKEND_URL = config.BACKEND_URL;
 const categoryColors = {
   'Code & Development': 'from-blue-500/20 to-cyan-500/20 border-blue-500/20 text-blue-300',
   'Data Analysis': 'from-emerald-500/20 to-teal-500/20 border-emerald-500/20 text-emerald-300',
+  'Data & Analytics': 'from-emerald-500/20 to-teal-500/20 border-emerald-500/20 text-emerald-300',
+  'AI & Machine Learning': 'from-indigo-500/20 to-violet-500/20 border-indigo-500/20 text-indigo-300',
   'Productivity': 'from-amber-500/20 to-orange-500/20 border-amber-500/20 text-amber-300',
+  'Productivity & Automation': 'from-amber-500/20 to-orange-500/20 border-amber-500/20 text-amber-300',
   'Design & Creative': 'from-pink-500/20 to-rose-500/20 border-pink-500/20 text-pink-300',
   'Marketing & Sales': 'from-red-500/20 to-orange-500/20 border-red-500/20 text-red-300',
   'Content Writing': 'from-violet-500/20 to-purple-500/20 border-violet-500/20 text-violet-300',
   'Video & Audio': 'from-purple-500/20 to-fuchsia-500/20 border-purple-500/20 text-purple-300',
   'Research & Education': 'from-indigo-500/20 to-blue-500/20 border-indigo-500/20 text-indigo-300',
   'Customer Service': 'from-teal-500/20 to-cyan-500/20 border-teal-500/20 text-teal-300',
+  'Customer Service & Chat': 'from-teal-500/20 to-cyan-500/20 border-teal-500/20 text-teal-300',
   'Other': 'from-gray-500/20 to-slate-500/20 border-gray-500/20 text-gray-300',
 };
 

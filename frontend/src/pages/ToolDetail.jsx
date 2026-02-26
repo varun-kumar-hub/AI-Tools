@@ -9,13 +9,17 @@ import { toolsAPI } from '../utils/supabase';
 const categoryColors = {
   'Code & Development': 'text-blue-300 bg-blue-500/10 border-blue-500/20',
   'Data Analysis': 'text-emerald-300 bg-emerald-500/10 border-emerald-500/20',
+  'Data & Analytics': 'text-emerald-300 bg-emerald-500/10 border-emerald-500/20',
+  'AI & Machine Learning': 'text-indigo-300 bg-indigo-500/10 border-indigo-500/20',
   'Productivity': 'text-amber-300 bg-amber-500/10 border-amber-500/20',
+  'Productivity & Automation': 'text-amber-300 bg-amber-500/10 border-amber-500/20',
   'Design & Creative': 'text-pink-300 bg-pink-500/10 border-pink-500/20',
   'Marketing & Sales': 'text-red-300 bg-red-500/10 border-red-500/20',
   'Content Writing': 'text-violet-300 bg-violet-500/10 border-violet-500/20',
   'Video & Audio': 'text-purple-300 bg-purple-500/10 border-purple-500/20',
   'Research & Education': 'text-indigo-300 bg-indigo-500/10 border-indigo-500/20',
   'Customer Service': 'text-teal-300 bg-teal-500/10 border-teal-500/20',
+  'Customer Service & Chat': 'text-teal-300 bg-teal-500/10 border-teal-500/20',
   'Other': 'text-gray-300 bg-gray-500/10 border-gray-500/20',
 };
 
