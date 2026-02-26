@@ -14,7 +14,6 @@ import UpdatePassword from "./pages/UpdatePassword";
 import { Toaster } from "./components/ui/toaster";
 import { AuthProvider, useAuth } from "./components/AuthProvider";
 import { toolsAPI } from "./utils/supabase";
-import PullToRefresh from "./components/PullToRefresh";
 import { useBackButton } from "./hooks/useBackButton";
 
 export const ToolsContext = createContext(null);
@@ -142,26 +141,24 @@ function AppContent() {
           <BackButtonHandler onExitRequest={handleExitRequest} />
 
           <Navbar />
-          <PullToRefresh onRefresh={loadData}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/categories" element={<Categories />} />
-              <Route path="/category/:id" element={<CategoryDetail />} />
-              <Route path="/search" element={<Search />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/tool/:id" element={<ToolDetail />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/update-password" element={<UpdatePassword />} />
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedAdminRoute>
-                    <Admin />
-                  </ProtectedAdminRoute>
-                }
-              />
-            </Routes>
-          </PullToRefresh>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/category/:id" element={<CategoryDetail />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/tool/:id" element={<ToolDetail />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/update-password" element={<UpdatePassword />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedAdminRoute>
+                  <Admin />
+                </ProtectedAdminRoute>
+              }
+            />
+          </Routes>
 
           {/* Global Footer Quote */}
           <div className="py-6 text-center">

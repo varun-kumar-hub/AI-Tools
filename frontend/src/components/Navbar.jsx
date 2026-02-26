@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Grid3X3, Search, Info, Settings, Sparkles, Menu, ChevronDown } from 'lucide-react';
+import { Home, Grid3X3, Search, Info, Settings, Sparkles, Menu, ChevronDown, RefreshCw } from 'lucide-react';
 import { useAuth } from './AuthProvider';
+import { ToolsContext } from '../App';
 import logoImg from '../assets/logo.png';
 import {
   DropdownMenu,
@@ -14,6 +15,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { isAdmin } = useAuth();
+  const { refresh, loading } = useContext(ToolsContext) || {};
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -98,10 +100,25 @@ const Navbar = () => {
                   Admin
                 </button>
               </Link>
+              <button
+                onClick={refresh}
+                disabled={loading}
+                className="flex items-center gap-2 ml-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 text-gray-500 hover:text-gray-300 hover:bg-white/5 border border-white/[0.06] disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Refresh page"
+              >
+                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+              </button>
             </div>
 
             {/* Mobile Dropdown Menu (on the right) */}
-            <div className="md:hidden flex items-center">
+            <div className="md:hidden flex items-center gap-2">
+              <button
+                onClick={refresh}
+                disabled={loading}
+                className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-gray-300 hover:text-white transition-colors focus:outline-none shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
+              </button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-gray-300 hover:text-white transition-colors focus:outline-none shadow-sm">
@@ -125,8 +142,8 @@ const Navbar = () => {
                         <Link
                           to={path}
                           className={`flex items-center gap-3 cursor-pointer py-3 px-3 m-0.5 rounded-xl transition-all font-medium outline-none focus:outline-none focus:ring-0 ${active
-                              ? 'text-violet-300 bg-violet-500/15 border-l-2 border-l-violet-400'
-                              : 'hover:bg-white/5 hover:text-white focus:bg-white/5 focus:text-white border-l-2 border-l-transparent text-gray-400'
+                            ? 'text-violet-300 bg-violet-500/15 border-l-2 border-l-violet-400'
+                            : 'hover:bg-white/5 hover:text-white focus:bg-white/5 focus:text-white border-l-2 border-l-transparent text-gray-400'
                             }`}
                         >
                           <div className={`p-1.5 rounded-lg ${active ? 'bg-violet-500/20' : 'bg-white/[0.03]'}`}>
