@@ -84,21 +84,43 @@ function AppContent() {
   const [error, setError] = useState(null);
   const [showExitDialog, setShowExitDialog] = useState(false);
 
+  const fetchWithRetry = async (fn, retries = 3, delay = 1000) => {
+    for (let i = 0; i < retries; i++) {
+      try {
+        return await fn();
+      } catch (err) {
+        if (i === retries - 1) throw err;
+        await new Promise(res => setTimeout(res, delay * (i + 1))); // Exponential-ish backoff
+      }
+    }
+  };
+
   const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
-      const [toolsData, categoriesData, statsData] = await Promise.all([
-        toolsAPI.getAll(),
-        toolsAPI.getCategories(),
-        toolsAPI.getStats(),
-      ]);
+
+      // Fetch tools critically (with retries)
+      let toolsData = [];
+      try {
+        toolsData = await fetchWithRetry(() => toolsAPI.getAll(), 3, 1000);
+      } catch (err) {
+        console.error("Failed to load tools from Supabase:", err);
+        throw new Error("Poor connection or server error. Please retry.");
+      }
       setTools(toolsData || []);
-      setCategories(categoriesData || []);
-      setStats(statsData || null);
+
+      // Fetch non-critical data independently so they don't block tools from showing
+      fetchWithRetry(() => toolsAPI.getCategories(), 2, 1000)
+        .then(data => setCategories(data || []))
+        .catch(err => console.error("Categories fetch failed:", err));
+
+      fetchWithRetry(() => toolsAPI.getStats(), 2, 1000)
+        .then(data => setStats(data || null))
+        .catch(err => console.error("Stats fetch failed:", err));
+
     } catch (err) {
-      console.error("Failed to load data from Supabase:", err);
-      setError("Could not load data. Please try again later.");
+      setError(err.message || "Could not load data. Please check connection and try again.");
     } finally {
       setLoading(false);
     }

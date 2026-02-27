@@ -109,7 +109,7 @@ const ToolCard = ({ tool, isAdmin, onDelete }) => {
 };
 
 const Home = () => {
-  const { tools, stats, loading, refresh } = useContext(ToolsContext);
+  const { tools, stats, loading, refresh, error } = useContext(ToolsContext);
   const { isAdmin } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [displayLimit] = useState(() => parseInt(localStorage.getItem('home_display_limit')) || 18);
@@ -231,11 +231,26 @@ const Home = () => {
 
           {filteredTools.length === 0 ? (
             <div className="text-center py-24">
-              <div className="w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/[0.07] flex items-center justify-center mx-auto mb-4">
-                <Search className="w-7 h-7 text-gray-600" />
-              </div>
-              <p className="text-gray-400 font-medium">No tools found</p>
-              <p className="text-gray-600 text-sm mt-1">Try a different search term</p>
+              {error ? (
+                <>
+                  <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-4">
+                    <Zap className="w-7 h-7 text-red-500" />
+                  </div>
+                  <p className="text-gray-200 font-medium mb-1">Connection Issue</p>
+                  <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto">{error}</p>
+                  <button onClick={refresh} className="px-5 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] text-white text-sm font-medium transition-all">
+                    Try Again
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div className="w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/[0.07] flex items-center justify-center mx-auto mb-4">
+                    <Search className="w-7 h-7 text-gray-600" />
+                  </div>
+                  <p className="text-gray-400 font-medium">No tools found</p>
+                  <p className="text-gray-600 text-sm mt-1">Try a different search term</p>
+                </>
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
