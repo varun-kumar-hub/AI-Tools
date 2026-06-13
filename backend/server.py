@@ -312,6 +312,7 @@ async def run_scrapers_task(limit: int = 15):
     ]
     
     total_added = 0
+    total_rls_blocked = 0
     
     for scraper in scrapers:
         try:
@@ -324,14 +325,21 @@ async def run_scrapers_task(limit: int = 15):
             for tool in tools:
                 try:
                     # Check if tool already exists by URL (more unique than name) or Name
-                    # Using OR logic via multiple queries for safety
                     existing_url = supabase.table('ai_tools').select('id').eq('url', tool['url']).execute()
                     existing_name = supabase.table('ai_tools').select('id').eq('name', tool['name']).execute()
                     
                     if not existing_url.data and not existing_name.data:
-                        supabase.table('ai_tools').insert(tool).execute()
-                        total_added += 1
-                        logger.info(f"Added tool: {tool['name']}")
+                        response = supabase.table('ai_tools').insert(tool).execute()
+                        # Validate insert actually succeeded
+                        if response.data and len(response.data) > 0:
+                            total_added += 1
+                            logger.info(f"Added tool: {tool['name']}")
+                        else:
+                            total_rls_blocked += 1
+                            logger.error(
+                                f"INSERT returned empty for '{tool['name'][:60]}' — "
+                                f"likely blocked by RLS. Check SUPABASE_SERVICE_ROLE_KEY."
+                            )
                     else:
                         logger.info(f"Skipped duplicate: {tool['name']}")
                 except Exception as e:
@@ -340,10 +348,19 @@ async def run_scrapers_task(limit: int = 15):
         except Exception as e:
             logger.error(f"Error running scraper {scraper.__class__.__name__}: {e}")
     
+    if total_rls_blocked > 0:
+        logger.error(
+            f"⚠️ {total_rls_blocked} inserts were blocked (likely RLS). "
+            f"Ensure SUPABASE_SERVICE_ROLE_KEY is set."
+        )
+    
     logger.info(f"Scraping complete. Added {total_added} new tools.")
     return total_added
 
 # Run scraper endpoint
+# WARNING: This endpoint does NOT work reliably on Vercel serverless.
+# Vercel kills functions after ~10s, but scraping takes 30-60s.
+# Use the GitHub Actions workflow (scraper.yml) instead for reliable scraping.
 @api_router.get("/scraper/run")
 @api_router.post("/scraper/run")
 async def run_scraper(background_tasks: BackgroundTasks, limit: int = 15):
@@ -351,7 +368,11 @@ async def run_scraper(background_tasks: BackgroundTasks, limit: int = 15):
         background_tasks.add_task(run_scrapers_task, limit)
         return {
             'status': 'started',
-            'message': 'Scraping task started in background'
+            'message': 'Scraping task started in background',
+            'warning': (
+                'This endpoint may not complete on Vercel serverless (10s timeout). '
+                'For reliable scraping, use the GitHub Actions workflow instead.'
+            )
         }
     except Exception as e:
         logger.error(f"Error starting scraper: {e}")
